@@ -11,11 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Install dependencies
-        run: |
-          sudo apt update
-          sudo apt install curl jq
-
       # - name: Create deployment
       #   id: deployment
       #   run: |
@@ -30,13 +25,14 @@ jobs:
           echo done
 
       - name: Set var
+        id: set
         run: |
           VAR="1234"
           echo "::set-output name=test::$VAR"
       
       - name: Return var
         run: |
-          echo "Var before was: ${{ steps.step2.outputs.test }}"
+          echo "Var before was: ${{ steps.set.outputs.test }}"
       # - name: Update deployment status (success)
       #   if: success()
 
