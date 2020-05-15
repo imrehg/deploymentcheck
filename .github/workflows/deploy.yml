@@ -27,7 +27,7 @@ jobs:
         uses: imrehg/deployment-status@dev
         with:
           token: "${{ github.token }}"
-          target_url: https://gergely.imreh.net
+          environment_url: https://gergely.imreh.net
           state: "success"
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
