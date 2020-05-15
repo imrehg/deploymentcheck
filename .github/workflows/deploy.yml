@@ -24,16 +24,16 @@ jobs:
 
       - name: Update deployment status (success)
         if: success()
-        uses: chrnorm/deployment-status@releases/v1
+        uses: imrehg/deployment-status@dev
         with:
           token: "${{ github.token }}"
-          target-url: https://gergely.imreh.net
+          target_url: https://gergely.imreh.net
           state: "success"
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
       - name: Update deployment status (failure)
         if: failure()
-        uses: chrnorm/deployment-status@releases/v1
+        uses: imrehg/deployment-status@dev
         with:
           token: "${{ github.token }}"
           state: "failure"
