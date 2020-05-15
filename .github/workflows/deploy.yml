@@ -11,30 +11,39 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - uses: chrnorm/deployment-action@v1.2.0
-        name: Create GitHub deployment
-        id: deployment
-        with:
-          token: "${{ github.token }}"
-          environment: production
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install curl jq
+
+      # - name: Create deployment
+      #   id: deployment
+      #   run: |
+      #     curl -H "Accept: application/vnd.github.ant-man-preview+json" \
+      #      -H "Authorization: token $TOKEN" \
+      #      -X POST -H 'Content-Type: application/json' \
+      #      -d '{"ref": "curl", "environment": "debug", "transient_environment": true, "description": "My debug env", "required_contexts": []}' \
+      #     https://api.github.com/repos/imrehg/deploymentcheck/deployments
 
       - name: Deploy my app
         run: |
           echo done
 
-      - name: Update deployment status (success)
-        if: success()
-        uses: imrehg/deployment-status@dev
-        with:
-          token: "${{ github.token }}"
-          environment_url: https://gergely.imreh.net
-          state: "success"
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+      - name: Set var
+        run: |
+          VAR="1234"
+          echo "::set-output name=test::$VAR"
+      
+      - name: Return var
+        run: |
+          echo "Var before was: ${{ steps.step2.outputs.test }}"
+      # - name: Update deployment status (success)
+      #   if: success()
 
-      - name: Update deployment status (failure)
-        if: failure()
-        uses: imrehg/deployment-status@dev
-        with:
-          token: "${{ github.token }}"
-          state: "failure"
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+      # - name: Update deployment status (failure)
+      #   if: failure()
+      #   uses: imrehg/deployment-status@dev
+      #   with:
+      #     token: "${{ github.token }}"
+      #     state: "failure"
+      #     deployment_id: ${{ steps.deployment.outputs.deployment_id }}
