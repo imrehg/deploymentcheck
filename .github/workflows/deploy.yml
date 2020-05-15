@@ -11,35 +11,28 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      # - name: Create deployment
-      #   id: deployment
-      #   run: |
-      #     curl -H "Accept: application/vnd.github.ant-man-preview+json" \
-      #      -H "Authorization: token $TOKEN" \
-      #      -X POST -H 'Content-Type: application/json' \
-      #      -d '{"ref": "curl", "environment": "debug", "transient_environment": true, "description": "My debug env", "required_contexts": []}' \
-      #     https://api.github.com/repos/imrehg/deploymentcheck/deployments
+      - name: Create deployment
+        id: deployment
+        run: |
+          API_RESPONSE=$(curl -H "Accept: application/vnd.github.ant-man-preview+json" -H "Authorization: token ${{ github.token }}" -X POST -H 'Content-Type: application/json' -d '{"ref": "'"$GITHUB_REF"'", "environment": "preview", "transient_environment": true, "description": "My debug env", "required_contexts": []}' "https://api.github.com/repos/$GITHUB_REPOSITORY/deployments")
+          STATUSES_URL=$(echo $API_RESPONSE | jq .statuses_url)
+          echo "::set-output name=statuses_url::$STATUSES_URL"
+
+      - name: Update deployment status (in_progress)
+        run: |
+          curl -H "Accept: application/vnd.github.flash-preview+json" -H "Authorization: token ${{ github.token }}" -X POST -H 'Content-Type: application/json' -d '{"state": "in_progress"}' ${{ steps.deployment.outputs.statuses_url }}
 
       - name: Deploy my app
         run: |
           echo done
-
-      - name: Set var
-        id: set
-        run: |
-          VAR="1234"
-          echo "::set-output name=test::$VAR"
+          sleep 30
       
-      - name: Return var
+      - name: Update deployment status (success)
+        if: success()
         run: |
-          echo "Var before was: ${{ steps.set.outputs.test }}"
-      # - name: Update deployment status (success)
-      #   if: success()
+          curl -H "Accept: application/vnd.github.ant-man-preview+json" -H "Authorization: token ${{ github.token }}" -X POST -H 'Content-Type: application/json' -d '{"state": "success", "description": "My debug status", "environment_url": "https://twitter.com/imrehg"}' ${{ steps.deployment.outputs.statuses_url }}
 
-      # - name: Update deployment status (failure)
-      #   if: failure()
-      #   uses: imrehg/deployment-status@dev
-      #   with:
-      #     token: "${{ github.token }}"
-      #     state: "failure"
-      #     deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+      - name: Update deployment status (success)
+        if: failure()
+        run: |
+          curl -H "Accept: application/vnd.github.ant-man-preview+json" -H "Authorization: token ${{ github.token }}" -X POST -H 'Content-Type: application/json' -d '{"state": "failure", "description": "My debug status"}' ${{ steps.deployment.outputs.statuses_url }}
