@@ -11,12 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - uses: chrnorm/deployment-action@releases/v1
+      - uses: chrnorm/deployment-action@releases/v1.2.0
         name: Create GitHub deployment
         id: deployment
         with:
           token: "${{ github.token }}"
-          target-url: http://my-app-url.com
+          target_url: http://my-app-url.com
           environment: production
 
       - name: Deploy my app
@@ -25,18 +25,18 @@ jobs:
 
       - name: Update deployment status (success)
         if: success()
-        uses: chrnorm/deployment-status@releases/v1
+        uses: chrnorm/deployment-status@releases/v1.2.0
         with:
           token: "${{ github.token }}"
-          target-url: http://my-app-url.com
+          target_url: http://my-app-url.com
           state: "success"
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
       - name: Update deployment status (failure)
         if: failure()
-        uses: chrnorm/deployment-status@releases/v1
+        uses: chrnorm/deployment-status@releases/v1.2.0
         with:
           token: "${{ github.token }}"
-          target-url: http://my-app-url.com
+          target_url: http://my-app-url.com
           state: "failure"
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
