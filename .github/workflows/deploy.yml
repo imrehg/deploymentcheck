@@ -2,8 +2,10 @@ name: Deploy
 
 on:
   push:
-    branch-ignore:
-      - 'ignore**'
+    branches:
+      - 'master'
+    paths:
+      - '.github/workflows/deploy.yml'
 
 jobs:
   deploy:
