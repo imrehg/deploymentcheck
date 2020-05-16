@@ -4,8 +4,8 @@ on:
   push:
     branch:
       - '!curl3'
-    path:
-      - '*.sh'
+    # path:
+    #   - '*.sh'
 
 jobs:
   deploy:
