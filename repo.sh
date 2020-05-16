@@ -13,8 +13,6 @@ echo $API_RESPONSE
 URL=$(echo $API_RESPONSE | jq ".statuses_url")
 echo $URL
 
-
-
 # curl -H "Accept: application/vnd.github.ant-man-preview+json" \
 #      -H "Authorization: token $TOKEN" \
 #      -X POST -H 'Content-Type: application/json' \
