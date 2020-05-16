@@ -2,10 +2,8 @@ name: Deploy
 
 on:
   push:
-    branch:
-      - '!curl3'
-    # path:
-    #   - '*.sh'
+    branch-ignore:
+      - 'curl3'
 
 jobs:
   deploy:
