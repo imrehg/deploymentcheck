@@ -1,6 +1,11 @@
 name: Deploy
 
-on: [push]
+on:
+  push:
+    branch-ignore:
+      - master
+    path:
+      - '*.sh'
 
 jobs:
   deploy:
@@ -25,7 +30,7 @@ jobs:
       - name: Deploy my app
         run: |
           echo done
-          sleep 30
+          sleep 10
       
       - name: Update deployment status (success)
         if: success()
