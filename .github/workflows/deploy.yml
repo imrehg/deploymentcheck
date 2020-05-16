@@ -31,7 +31,7 @@ jobs:
 
       - name: Deploy my app
         run: |
-          echo done
+          echo doing it
           sleep 10
       
       - name: Update deployment status (success)
