@@ -5,6 +5,7 @@ on:
     branches-ignore:
       - 'master'
     paths:
+      - '*.sh'
       - '.github/workflows/deploy.yml'
 
 jobs:
