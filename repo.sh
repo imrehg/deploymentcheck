@@ -11,7 +11,7 @@ API_RESPONSE=$(curl --silent -H "Accept: application/vnd.github.ant-man-preview+
 echo $API_RESPONSE
 
 URL=$(echo $API_RESPONSE | jq ".statuses_url")
-echo $URL
+echo "$URL"
 
 # curl -H "Accept: application/vnd.github.ant-man-preview+json" \
 #      -H "Authorization: token $TOKEN" \
