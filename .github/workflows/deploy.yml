@@ -30,6 +30,8 @@ jobs:
           echo "Reference; $GITHUB_REF"
           echo "SHA; $GITHUB_SHA"
           echo "Head sha: ${{ github.event.pull_request.head.sha }}"
+          echo "Head ref: ${{ github.head_ref }}"
+          echo "Base ref: ${{ github.base_ref }}"
           API_RESPONSE=$(curl -H "Accept: application/vnd.github.ant-man-preview+json" -H "Authorization: token ${{ github.token }}" -X POST -H 'Content-Type: application/json' -d '{"ref": "${{ github.event.pull_request.head.sha }}", "environment": "preview", "transient_environment": true, "production_environment": false, "description": "My preview env", "required_contexts": []}' "https://api.github.com/repos/$GITHUB_REPOSITORY/deployments")
           STATUSES_URL=$(echo $API_RESPONSE | jq .statuses_url)
           echo "::set-output name=statuses_url::$STATUSES_URL"
