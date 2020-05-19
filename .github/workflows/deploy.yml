@@ -47,7 +47,7 @@ jobs:
         run: |
           curl -H "Accept: application/vnd.github.ant-man-preview+json" -H "Authorization: token ${{ github.token }}" -X POST -H 'Content-Type: application/json' -d '{"state": "success", "description": "My success status", "environment_url": "https://gergely.imreh.net"}' ${{ steps.deployment.outputs.statuses_url }}
 
-      - name: Update deployment status (success)
+      - name: Update deployment status (failure)
         if: failure()
         run: |
           curl -H "Accept: application/vnd.github.ant-man-preview+json" -H "Authorization: token ${{ github.token }}" -X POST -H 'Content-Type: application/json' -d '{"state": "failure", "description": "My failed status"}' ${{ steps.deployment.outputs.statuses_url }}
