@@ -1,19 +1,19 @@
 name: Deploy
 
 on:
-  # push:
-  #   branches-ignore:
-  #     - 'master'
-  #   paths:
-  #     - '*.sh'
-  #     - '.github/workflows/deploy.yml'
-
-  pull_request:
-    branches:
+  push:
+    branches-ignore:
       - 'master'
     paths:
       - '*.sh'
       - '.github/workflows/deploy.yml'
+
+  # pull_request:
+  #   branches:
+  #     - 'master'
+  #   paths:
+  #     - '*.sh'
+  #     - '.github/workflows/deploy.yml'
 
 jobs:
   deploy:
